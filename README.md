@@ -2,7 +2,7 @@
 
 Unicode Extension for Ulauncher.
 
-- **Ulauncher**: [Ulauncher — Application launcher for Linux 🐧](https://ulauncher.io/)
+- **Ulauncher**: [Ulauncher — Application launcher for Linux](https://ulauncher.io/)
 - **Unicode**: [Unicode – The World Standard for Text and Emoji](https://home.unicode.org/) ([Wikipedia - Unicode](https://en.wikipedia.org/wiki/Unicode))
 
 This is personal project.
@@ -38,7 +38,7 @@ Supported Features:
 
    How to install Extension on Ulauncher: [About — Ulauncher Extensions](https://ext.ulauncher.io/about)
 
-   > Ulauncher Preferences - Extensions - Add extension
+   > Ulauncher Preferences - Extensions - Add extension - Enter `https://github.com/yeoneer/ulauncher-unicode`
 
 Detail about version requirements:
 
