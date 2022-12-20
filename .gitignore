@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+.unicode_character_icon/
+original_data/

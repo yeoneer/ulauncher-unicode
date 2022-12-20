@@ -1,0 +1,47 @@
+{
+  "python.testing.unittestArgs": [
+    "-v",
+    "-s",
+    ".",
+    "-p",
+    "test*.py",
+  ],
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": true,
+
+  "python.analysis.typeCheckingMode": "basic",
+
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+
+    // Reference of '88': [The Black code style - Black 22.12.0 documentation](https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#line-length)
+    "editor.rulers": [88, 120],
+
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+  },
+
+  "[markdown]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+    "editor.rulers": [80],
+
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": false,
+  },
+
+  "cSpell.words": [
+    "ulauncher",
+    "rapidfuzz",
+    "Pixbuf",
+  ],
+}

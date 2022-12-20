@@ -1,0 +1,49 @@
+{
+  "required_api_version": "^2.0.0",
+  "name": "Unicode Extension",
+  "description": "Ulauncher - Unicode Extension",
+  "developer_name": "yeoneer",
+  "icon": "images/icon.png",
+  "options": {
+    "query_debounce": 0.2
+  },
+  "preferences": [
+    {
+      "id": "keyword",
+      "type": "keyword",
+      "name": "Keyword",
+      "description": "Keyword for run Unicode Extension",
+      "default_value": "u"
+    },
+    {
+      "id": "search_result_list_size",
+      "type": "input",
+      "name": "Searched Result List Size",
+      "description": "Number of searched result list",
+      "default_value": "10"
+    },
+    {
+      "id": "search_result_view_type",
+      "type": "select",
+      "name": "Searched Result Type",
+      "description": "View type for searched result Unicode characters",
+      "default_value": "default",
+      "options": [{"value": "default", "text": "Default"}, {"value": "small", "text": "Small" }]
+    },
+    {
+      "id": "unicode_character_icon_font",
+      "type": "input",
+      "name": "Unicode Character Icon Font",
+      "description": "Font for Unicode Character Icon, e.g.,`Noto Sans, sans-serif`. Changing this will not take effect properly until Ulauncher is restarted. Default value is 'sans-serif'",
+      "default_value": "sans-serif"
+    },
+    {
+      "id": "unicode_character_icon_background",
+      "type": "select",
+      "name": "Unicode Character Icon Background",
+      "description": "Background for Unicode Character Icon",
+      "default_value": "none",
+      "options": [{"value": "none", "text": "None"}, {"value": "white", "text": "White" }]
+    }
+  ]
+}

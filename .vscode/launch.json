@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Ulauncher Extension Debug",
+      "type": "python",
+      "request": "launch",
+      "program": "main.py",
+      // "env": {"VERBOSE": "1", "ULAUNCHER_WS_API": "ws://127.0.0.1:5054/ulauncher-unicode", "PYTHONPATH": "/usr/lib/python3/dist-packages"},
+      "env": {"VERBOSE": "1", "ULAUNCHER_WS_API": "ws://127.0.0.1:5054/ulauncher-unicode"},
+      "args": ["${workspaceFolder}"],
+      "console": "integratedTerminal",
+      "justMyCode": true,
+    },
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+    },
+  ],
+}
