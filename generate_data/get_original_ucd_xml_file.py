@@ -4,9 +4,15 @@ import sys
 import zipfile
 import urllib.request
 
-# Reference: [Unicode Character Database](https://www.unicode.org/ucd/)
 
-# [Unicode 15.0.0](https://www.unicode.org/versions/Unicode15.0.0/) (Released on 2022-09-13)
+# Latest Unicode: [Unicode 15.0.0](https://www.unicode.org/versions/Unicode15.0.0/) (released on 2022-09-13)
+#
+# Unicode Character Database(UCD): [Unicode Character Database](https://www.unicode.org/ucd/)
+#
+# Copyright, License of Unicode Data Files:
+#
+# - [Unicode Terms of Use](https://unicode.org/copyright.html)
+# - [License](https://www.unicode.org/license.txt)
 
 UNICODE_CHARACTER_DATABASE_URL = "https://www.unicode.org/Public"
 UNICODE_VERSION = "15.0.0"
