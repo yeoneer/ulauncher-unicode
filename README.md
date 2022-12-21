@@ -3,7 +3,7 @@
 Unicode Extension for Ulauncher.
 
 - **Ulauncher**: [Ulauncher — Application launcher for Linux](https://ulauncher.io/)
-- **Unicode**: [Unicode – The World Standard for Text and Emoji](https://home.unicode.org/) ([Wikipedia - Unicode](https://en.wikipedia.org/wiki/Unicode))
+- **Unicode**: [Unicode – The World Standard for Text and Emoji](https://home.unicode.org/) ([Unicode - Wikipedia](https://en.wikipedia.org/wiki/Unicode))
 
 This is personal project.
 
@@ -12,7 +12,7 @@ This is personal project.
 > **Note**
 >
 > If you are looking for an extension to search for and type emojis,
-> i highly recommend to use Emoji Extension.
+> i highly recommend to use Emoji Extension of Ulauncher.
 >
 > [Emoji — Ulauncher Extensions](https://ext.ulauncher.io/-/github-ulauncher-ulauncher-emoji) ([GitHub - Ulauncher/ulauncher-emoji: Emoji Extension](https://github.com/Ulauncher/ulauncher-emoji))
 
@@ -24,6 +24,11 @@ Supported Features:
 
 - Search Unicode character
 - Convert letter to Unicode info
+
+This extension supports 149,251 characters
+(149,186 characters of Unicode Standard + 65 control characters)
+of the latest Unicode 15.0.0.
+[Unicode Character Count V15.0](https://www.unicode.org/versions/stats/charcountv15_0.html)
 
 ## How to Install
 
@@ -42,13 +47,13 @@ Supported Features:
 
 Detail about version requirements:
 
-- Ulauncher: 5.15.0
-- Python: This extension has been tested with Python 3.10.6.
-  It may not work properly on lower versions.
+- Ulauncher: Tested with Ulauncher 5.15.0 (latest release)
+- Python: Tested with Python 3.10.6(latest on Ubuntu 22.04).
+  It may not work on lower versions.
 
 ## Troubleshooting
 
-- Unicode character icons do not shown properly:
+- **Unicode character icons do not shown properly**:
 
   The icon for a character depends on the fonts installed on your device
   and the 'Unicode Character Icon Font' preference.
@@ -56,7 +61,11 @@ Detail about version requirements:
   Ensure that you have the appropriate preference or font installed that is
   capable of displaying the character.
 
-- 'Unicode Character Icon Font' preference changes not affected immediately:
+  If the icon is Block Icon(🛇, Prohibited Icon), it means that the character
+  is a non-printable character. In Unicode, it's a Control Character.
+  [Control character - Wikipedia](https://en.wikipedia.org/wiki/Control_character)
+
+- **'Unicode Character Icon Font' preference changes not affected immediately**:
 
   This preference changes will not take effect properly
   until Ulauncher is restarted.
