@@ -4,15 +4,19 @@ import os
 import sys
 
 from .load_unicode_data import load_unicode_data
+from .unicode_character_icon import reset_unicode_character_icon_dir
 from .unicode_character import UnicodeCharacter
 from .unicode_extension_feature import UnicodeExtensionFeature
 from .util import get_project_path
 
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
+from ulauncher.api.shared.item.ExtensionSmallResultItem import ExtensionSmallResultItem
 
 
 class UnicodeExtensionFeatureTest(unittest.TestCase):
     def setUp(self):
+        reset_unicode_character_icon_dir()
+
         loaded_unicode_data = load_unicode_data()
 
         self.feature: UnicodeExtensionFeature = UnicodeExtensionFeature(
@@ -158,6 +162,69 @@ class UnicodeExtensionFeatureTest(unittest.TestCase):
             "U+C548 U+B155 U+D558 U+C138 U+C694",
             "안(U+C548) 녕(U+B155) 하(U+D558) 세(U+C138) 요(U+C694)",
         )
+
+    def test_generate_search_result_item_type_default(self):
+
+        search_result = self.feature.generate_search_result("latin capital letter a")
+
+        self.assertIsInstance(search_result[0], ExtensionResultItem)
+        self.assertNotIsInstance(search_result[0], ExtensionSmallResultItem)
+
+    def test_generate_search_result_item_type_small(self):
+        self.feature.preferences.update_search_result_view_type("small")
+
+        search_result = self.feature.generate_search_result("latin capital letter a")
+
+        # `ExtensionSmallResultItem` is subclass of `ExtensionResultItem`
+        self.assertIsInstance(search_result[0], ExtensionResultItem)
+        self.assertIsInstance(search_result[0], ExtensionSmallResultItem)
+
+    def test_generate_search_result_item_size(self):
+        SIZE_A = 15
+
+        self.feature.preferences.update_search_result_list_size(str(SIZE_A))
+        search_result = self.feature.generate_search_result("latin")
+        self.assertEqual(len(search_result), SIZE_A)
+
+        SIZE_B = 5
+
+        self.feature.preferences.update_search_result_list_size(str(SIZE_B))
+        search_result = self.feature.generate_search_result("latin")
+        self.assertEqual(len(search_result), SIZE_B)
+
+    def test_generate_search_result(self):
+        # TODO: improve
+
+        search_result = self.feature.generate_search_result("latin capital letter a")
+
+        self.assertEqual(search_result[0].get_name(), "LATIN CAPITAL LETTER A")
+
+    def test_handle_keyword_query_event(self):
+        # TODO: improve
+        from ulauncher.api.shared.action.RenderResultListAction import (
+            RenderResultListAction,
+        )
+        from ulauncher.api.shared.event import KeywordQueryEvent
+        from ulauncher.search.Query import Query
+
+        def create_keyword_query_event(query: str) -> KeywordQueryEvent:
+            return KeywordQueryEvent(Query(query))
+
+        def get_result_list_from_render_result_list_action(
+            render_result_list_action: RenderResultListAction,
+        ) -> list[ExtensionResultItem]:
+            return render_result_list_action.result_list
+
+        def simulate_query(query: str) -> list[ExtensionResultItem]:
+            return get_result_list_from_render_result_list_action(
+                self.feature.handle_keyword_query_event(
+                    create_keyword_query_event(query)
+                )
+            )
+
+        result = simulate_query("u latin capital letter a")
+
+        self.assertEqual(result[1].get_name(), "LATIN CAPITAL LETTER A")
 
 
 if __name__ == "__main__":
