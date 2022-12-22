@@ -40,19 +40,19 @@ class UlauncherUnicodeExtension(Extension):
 
 class UlauncherKeywordQueryEventListener(EventListener):
     def on_event(self, event: KeywordQueryEvent, extension: UlauncherUnicodeExtension):
-        return extension.feature.process_keyword_query_event(event)
+        return extension.feature.handle_keyword_query_event(event)
 
 
 class UlauncherPreferencesEventListener(EventListener):
     def on_event(self, event: PreferencesEvent, extension: UlauncherUnicodeExtension):
-        extension.feature.process_preferences_event(event)
+        extension.feature.handle_preferences_event(event)
 
 
 class UlauncherPreferencesUpdateEventListener(EventListener):
     def on_event(
         self, event: PreferencesUpdateEvent, extension: UlauncherUnicodeExtension
     ):
-        extension.feature.process_preferences_update_event(event)
+        extension.feature.handle_preferences_update_event(event)
 
 
 if __name__ == "__main__":

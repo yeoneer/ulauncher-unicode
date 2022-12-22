@@ -15,7 +15,7 @@ def processor_for_extract(data):
 
 def search_unicode_character(
     query: str, unicode_character_list: list[UnicodeCharacter], limit: int = 10
-) -> list:
+) -> list[tuple[UnicodeCharacter, float, int]]:
     """Search Unicode character
 
     Using RaidFuzz

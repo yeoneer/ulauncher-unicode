@@ -39,7 +39,7 @@ class UnicodeExtensionFeature:
         ] = unicode_character_dict
         self.unicode_character_list: list[UnicodeCharacter] = unicode_character_list
 
-    def process_keyword_query_event(
+    def handle_keyword_query_event(
         self, event: KeywordQueryEvent
     ) -> RenderResultListAction:
         content: str = event.get_argument()
@@ -47,75 +47,144 @@ class UnicodeExtensionFeature:
         if not content:
             return RenderResultListAction([])
 
-        extension_result_list: list = []
+        extension_result_item_list: list[ExtensionResultItem] = []
 
-        if len(content) == 1:
-            result_item = self.convert_one_letter_to_unicode_info(content)
+        try:
+            if len(content) == 1:
+                result_item = self.convert_one_letter_to_unicode_info(content)
+                extension_result_item_list.append(result_item)
+        except ValueError:
+            pass
 
-            extension_result_list.append(result_item)
+        try:
+            if len(content) >= 1:
+                result_item = self.convert_all_letter_to_unicode_info(content)
+                extension_result_item_list.append(result_item)
+        except ValueError:
+            pass
 
-        if len(content) >= 1:
-            result_item = self.convert_all_letter_to_unicode_info(content)
+        try:
+            search_result = self.generate_search_result(content)
+            extension_result_item_list.extend(search_result)
+        except Exception:
+            pass
 
-            extension_result_list.append(result_item)
+        return RenderResultListAction(extension_result_item_list)
 
-        search_result_list = self.get_search_result(content)
-        extension_result_list.extend(search_result_list)
-
-        return RenderResultListAction(extension_result_list)
-
-    def process_preferences_event(self, event: PreferencesEvent):
+    def handle_preferences_event(self, event: PreferencesEvent):
         self.preferences.update(event.preferences)  # type: ignore
 
-    def process_preferences_update_event(self, event: PreferencesUpdateEvent):
+    def handle_preferences_update_event(self, event: PreferencesUpdateEvent):
         preference_id = event.id
         new_value = event.new_value
 
         self.preferences.update({preference_id: new_value})
 
-    def get_unicode_character_icon(
-        self,
-        unicode_character: UnicodeCharacter,
-    ) -> str:
-        if not unicode_character.character.isprintable():
-            return self.icon_non_printable
+    def convert_one_letter_to_unicode_info(self, letter: str) -> ExtensionResultItem:
+        unicode_character = self.__get_unicode_character_from_letter(letter)
 
-        unicode_character_icon = generate_unicode_character_icon(
-            unicode_character,
-            background=self.preferences.unicode_character_icon_background,
-            font=self.preferences.unicode_character_icon_font,
+        name = f"{unicode_character.name}"
+        description = f"'{letter}' is {unicode_character.u_code_point}"
+
+        value = f"{unicode_character.u_code_point} {unicode_character.name}"
+
+        result_item = ExtensionResultItem(
+            icon=self.icon_convert,
+            name=name,
+            description=description,
+            on_enter=CopyToClipboardAction(value),
         )
 
-        return unicode_character_icon
+        return result_item
 
-    def get_search_result(self, query: str) -> list[ExtensionResultItem]:
-        extension_result_item_list: list = []
+    def convert_all_letter_to_unicode_info(self, content: str) -> ExtensionResultItem:
+        unicode_character_list: list[UnicodeCharacter] = []
 
-        search_result_list = search_unicode_character(
+        for letter in content:
+            unicode_character = self.__get_unicode_character_from_letter(letter)
+
+            unicode_character_list.append(unicode_character)
+
+        name = " ".join(
+            map(
+                lambda unicode_character: f"{unicode_character.u_code_point}",
+                unicode_character_list,
+            )
+        )
+        description = f'"{content}" to Unicode code point'
+
+        value = " ".join(
+            map(
+                lambda unicode_character: f"{unicode_character.character}({unicode_character.u_code_point})",
+                unicode_character_list,
+            )
+        )
+
+        result_item = ExtensionResultItem(
+            icon=self.icon_convert,
+            name=name,
+            description=description,
+            on_enter=CopyToClipboardAction(value),
+        )
+
+        return result_item
+
+    def generate_search_result(self, query: str) -> list[ExtensionResultItem]:
+        extension_result_item_list: list[ExtensionResultItem] = []
+
+        search_result = search_unicode_character(
             query=query,
             unicode_character_list=self.unicode_character_list,
             limit=self.preferences.search_result_list_size,
         )
 
-        for index, result_item in enumerate(search_result_list):
-            (unicode_character, score, _) = result_item
-            unicode_character: UnicodeCharacter = unicode_character
+        for index, item in enumerate(search_result):
+            (unicode_character, score, _) = item
 
-            extension_result_item = self.generate_search_result_item_view(
-                unicode_character
+            extension_result_item: ExtensionResultItem | ExtensionSmallResultItem = (
+                self.__generate_extension_result_item_of_search_result_character(
+                    unicode_character
+                )
             )
 
             extension_result_item_list.append(extension_result_item)
 
         return extension_result_item_list
 
-    def generate_search_result_item_view(
+    def __get_unicode_character_icon(
+        self,
+        unicode_character: UnicodeCharacter,
+    ) -> str:
+        if not unicode_character.character.isprintable():
+            return self.icon_non_printable
+
+        unicode_character_icon_file_path = generate_unicode_character_icon(
+            unicode_character,
+            background=self.preferences.unicode_character_icon_background,
+            font=self.preferences.unicode_character_icon_font,
+        )
+
+        return unicode_character_icon_file_path
+
+    def __get_unicode_character_from_letter(self, letter: str) -> UnicodeCharacter:
+        if len(letter) > 1:
+            raise ValueError(
+                f"Letter should be one letter. current 'letter' value: `{letter}`"
+            )
+
+        hex_code_str = f"{ord(letter):X}"
+        code_point = f"U+{hex_code_str.zfill(4)}"
+
+        unicode_character = self.unicode_character_dict[code_point]
+
+        return unicode_character
+
+    def __generate_extension_result_item_of_search_result_character(
         self, unicode_character: UnicodeCharacter
     ) -> ExtensionResultItem | ExtensionSmallResultItem:
         def generate_extension_result_item(
             unicode_character: UnicodeCharacter,
         ) -> ExtensionResultItem:
-            unicode_character_icon = self.get_unicode_character_icon(unicode_character)
             name = f"{unicode_character.name}"
             description: str = f"{unicode_character.u_code_point} {unicode_character.name} ({unicode_character.block})"
 
@@ -124,7 +193,7 @@ class UnicodeExtensionFeature:
                 description = f"{description} [{alias}]"
 
             result_item = ExtensionResultItem(
-                icon=unicode_character_icon,
+                icon=self.__get_unicode_character_icon(unicode_character),
                 name=name,
                 description=description,
                 on_enter=CopyToClipboardAction(unicode_character.character),
@@ -137,7 +206,7 @@ class UnicodeExtensionFeature:
             name = f"{unicode_character.name} ({unicode_character.u_code_point})"
 
             small_result_item = ExtensionSmallResultItem(
-                icon=self.get_unicode_character_icon(unicode_character),
+                icon=self.__get_unicode_character_icon(unicode_character),
                 name=name,
                 on_enter=CopyToClipboardAction(unicode_character.character),
             )
@@ -152,55 +221,6 @@ class UnicodeExtensionFeature:
             raise ValueError(
                 f"`search_result_view_type` is wrong. Current value: `{self.preferences.search_result_view_type}`"
             )
-
-    def get_unicode_character_from_letter(self, character: str) -> UnicodeCharacter:
-        if len(character) > 1:
-            raise ValueError(
-                f"Character should be one letter. current 'character' value: `{character}`"
-            )
-
-        hex_code_str = f"{ord(character):X}"
-        code_point = f"U+{hex_code_str.zfill(4)}"
-
-        unicode_character = self.unicode_character_dict[code_point]
-
-        return unicode_character
-
-    def convert_one_letter_to_unicode_info(self, letter: str) -> ExtensionResultItem:
-        unicode_character = self.get_unicode_character_from_letter(letter)
-
-        name = f"{unicode_character.name}"
-        description = f"`{letter}` is {unicode_character.u_code_point}"
-
-        result_item = ExtensionResultItem(
-            icon=self.icon_convert,
-            name=name,
-            description=description,
-            on_enter=CopyToClipboardAction(name),
-        )
-
-        return result_item
-
-    def convert_all_letter_to_unicode_info(self, content: str) -> ExtensionResultItem:
-        letter_info_list: list[str] = []
-
-        for letter in content:
-            unicode_character = self.get_unicode_character_from_letter(letter)
-
-            letter_info = f"{letter}({unicode_character.u_code_point})"
-            letter_info_list.append(letter_info)
-
-        name = " ".join(letter_info_list)
-        description = f"`{content}` to Unicode code point"
-
-        result_item = ExtensionResultItem(
-            icon=self.icon_convert,
-            name=name,
-            description=description,
-            on_enter=CopyToClipboardAction(name),
-        )
-
-        return result_item
 
 
 class UnicodeExtensionPreferences:
