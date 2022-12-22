@@ -69,7 +69,8 @@ class UnicodeCharacter:
 
         string_list.append(self.name)
 
-        string_list.extend(self.aliases)
+        if len(self.aliases) > 0:
+            string_list.extend(self.aliases)
 
         # When block information is added, the quality of search results significantly decreases.
         #
