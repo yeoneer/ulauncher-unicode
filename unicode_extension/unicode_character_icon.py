@@ -18,14 +18,14 @@ UNICODE_CHARACTER_ICON_DIR_PATH = f"{PROJECT_PATH}/{UNICODE_CHARACTER_ICON_DIR}"
 
 ICON_WITHOUT_BACKGROUND_TEMPLATE = """
 <svg  width="100" height="100">
-    <text x="50" y="50" dy=".35em" text-anchor="middle" dominant-baseline="middle" font-family="{font}" font-size="80">{symbol}</text>
+    <text x="50" y="50" dy=".35em" text-anchor="middle" dominant-baseline="middle" font-family="{font}" font-size="80">{character}</text>
 </svg>
 """
 
 ICON_WITH_WHITE_BACKGROUND_TEMPLATE = """
 <svg  width="100" height="100">
     <rect x="0" y="0" rx="10" ry="10" width="100" height="100" style="fill:rgb(255,255,255)" />
-    <text x="50" y="50" dy=".35em" text-anchor="middle" dominant-baseline="middle" font-family="{font}" font-size="80">{symbol}</text>
+    <text x="50" y="50" dy=".35em" text-anchor="middle" dominant-baseline="middle" font-family="{font}" font-size="80">{character}</text>
 </svg>
 """
 
@@ -62,11 +62,11 @@ def generate_unicode_character_icon(
 
     if background is None:
         icon_content = ICON_WITHOUT_BACKGROUND_TEMPLATE.replace(
-            "{symbol}", unicode_character.character
+            "{character}", f"&#x{unicode_character.code_point};"
         ).replace("{font}", font)
     elif background == "white":
         icon_content = ICON_WITH_WHITE_BACKGROUND_TEMPLATE.replace(
-            "{symbol}", unicode_character.character
+            "{character}", f"&#x{unicode_character.code_point};"
         ).replace("{font}", font)
 
     if icon_content is None:
@@ -109,7 +109,7 @@ def generate_unicode_character_icon(
 #     from gi.repository import Gtk, GLib, GdkPixbuf
 #
 #     icon_content = ICON_WITHOUT_BACKGROUND_TEMPLATE.replace(
-#         "{symbol}", unicode_character.character
+#         "{character}", f"&#x{unicode_character.code_point};"
 #     ).replace("{font}", font)
 #
 #     def create_icon_data(content: str):
