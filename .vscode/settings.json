@@ -43,5 +43,7 @@
     "ulauncher",
     "rapidfuzz",
     "Pixbuf",
+    "fullwidth",
+    "halfwidth",
   ],
 }
