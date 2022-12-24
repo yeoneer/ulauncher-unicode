@@ -41,7 +41,9 @@ If select item in search result, the character is copied into clipboard.
 2. Find 'EM DASH' in search result and select
 3. `—` is in clipboard. (Ctrl + V to paste)
 
-About 'Em dash': [Dash - Em dash - Wikipedia](https://en.wikipedia.org/wiki/Dash#Em_dash)
+About 'Em Dash(—)':
+
+- [Dash - Em dash - Wikipedia](https://en.wikipedia.org/wiki/Dash#Em_dash)
 
 #### Search Example: U+00C1 LATIN CAPITAL LETTER A WITH ACUTE
 
@@ -49,7 +51,7 @@ About 'Em dash': [Dash - Em dash - Wikipedia](https://en.wikipedia.org/wiki/Dash
 2. Find 'LATIN CAPITAL LETTER A WITH ACUTE'
 3. `Á`
 
-About 'A with acute':
+About 'Latin Capital Letter A with Acute(Á)':
 
 - [Á - Wikipedia](https://en.wikipedia.org/wiki/%C3%81)
 - [Diacritic - Wikipedia](https://en.wikipedia.org/wiki/Diacritic)
@@ -60,7 +62,7 @@ About 'A with acute':
 2. Find 'FULLWIDTH QUESTION MARK'
 3. `？`
 
-About 'Fullwidth':
+About 'Fullwidth Question Mark(？)':
 
 - [Question mark - Fullwidth question mark in East Asian languages - Wikipedia](https://en.wikipedia.org/wiki/Question_mark#Fullwidth_question_mark_in_East_Asian_languages)
 - [Halfwidth and fullwidth forms - Wikipedia](https://en.wikipedia.org/wiki/Halfwidth_and_fullwidth_forms)
