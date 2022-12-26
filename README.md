@@ -27,7 +27,15 @@ This is personal project.
 > [Emoji — Ulauncher Extensions](https://ext.ulauncher.io/-/github-ulauncher-ulauncher-emoji)
 > ([GitHub - Ulauncher/ulauncher-emoji: Emoji Extension](https://github.com/Ulauncher/ulauncher-emoji))
 
-`u` in front of query(input) is keyword of this extension to run in Ulauncher.
+Features:
+
+- [Search Unicode Character](#search-unicode-character)
+- [Convert letter to Unicode info](#convert-letter-to-unicode-info)
+
+Below are detailed usage examples for each.
+
+The `u` at the beginning of the input example is keyword of this extension
+to run in Ulauncher.
 
 ### Search Unicode character
 
