@@ -153,3 +153,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 ```
 
 See also Full GNU GPL v3.0: [LICENSE](./LICENSE)
+
+---
+
+The [Material Symbols and Icons - Google Fonts](https://fonts.google.com/icons)
+([Apache-2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html))
+used in this project.
+
+- `images/convert-icon.png`: [Material Symbols and Icons - Swap Horiz](https://fonts.google.com/icons?selected=Material+Symbols+Outlined:swap_horiz)
+- `images/non-printable-icon.png`: [Material Symbols and Icons - Block](https://fonts.google.com/icons?selected=Material+Symbols+Outlined:block)
